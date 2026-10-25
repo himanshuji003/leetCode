@@ -5,25 +5,15 @@ const main = require("./config/db");
 const cookieParser = require("cookie-parser");
 const authRouter = require("./routes/userAuth");
 const redisClient = require("./config/redis");
+const problemRouter = require("./routes/problemCreator");
 
 app.use(express.json());
 app.use(cookieParser());
+
+
 app.use("/user", authRouter);
+app.use("/problem",problemRouter);
 
-// const IntializeConnection = async()=>{
-//     try{
-//         await Promise.all([main(),redisClient.connect()])
-//         console.log("Database connection successfully");
-
-//         app.listen(process.env.PORT, () => {
-//           console.log("Server listing on port number :" + process.env.PORT);
-//         });
-//     }
-//     catch(err){
-//         console.log("Error: "+err);
-//     }
-// }
-// IntializeConnection();
 
 redisClient.on("error", (err) => {
   console.error("Redis Client Error:", err.message);
@@ -46,3 +36,18 @@ const IntializeConnection = async () => {
 };
 
 IntializeConnection();
+
+// const IntializeConnection = async()=>{
+//     try{
+//         await Promise.all([main(),redisClient.connect()])
+//         console.log("Database connection successfully");
+
+//         app.listen(process.env.PORT, () => {
+//           console.log("Server listing on port number :" + process.env.PORT);
+//         });
+//     }
+//     catch(err){
+//         console.log("Error: "+err);
+//     }
+// }
+// IntializeConnection();
